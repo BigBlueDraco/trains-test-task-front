@@ -2,7 +2,7 @@ import { Box, Button, TextField } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useEffect, useState } from "react";
 import { getCities, getTrains } from "./axios/axios";
-import { TrainsList } from "./components/TrainsList";
+import { TrainsList } from "./components/TrainsList/TrainsList";
 function App() {
   const [cities, setCities] = useState<any>([]);
   const [from, setFrom] = useState<any | null>("Choose the city of departure");
@@ -25,6 +25,7 @@ function App() {
   const fetchAllTrains = async () => {
     if (!(from.id && to.id)) return;
     const trains = await getTrains({ fromId: from.id, toId: to.id });
+    console.log(trains);
     setTrains(trains);
   };
   useEffect(() => {
@@ -63,10 +64,7 @@ function App() {
         />
         <Button onClick={fetchAllTrains}>Submit</Button>
       </Box>
-      <TrainsList
-        items={[...trains]}
-        trainDisplayDaysCount={trainDisplayDaysCount}
-      />
+      <TrainsList items={[...trains]} displayDays={trainDisplayDaysCount} />
     </Box>
   );
 }
